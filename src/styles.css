@@ -1,0 +1,14 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Padding'in genişliği artırmasını engeller */
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    /* Dışarıdan taşmayı kökten keser */
+}

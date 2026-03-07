@@ -1,0 +1,42 @@
+
+.dashboard-container {
+    display: flex;
+        /* Yan yana gelmelerini sağlar */
+    height: 100vh;
+        /* Ekranın tamamını kapla (View Height) */
+    width: 100vw;
+        /* Ekranın tam genişliğini kapla */
+    overflow: hidden;
+    
+     /* Örnek arka plan rengi */
+}
+app-navbar {
+    position: fixed;
+    width: 100%;
+    height: 60px;
+    justify-content: space-between;
+    background-color: #2c3e50;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+}
+app-sidebar {
+    align-items: left;
+    justify-content: left;
+    width: 250px;
+    /* Sidebar sabit genişliği */
+    height: 100%;
+    background-color: #2c3e50;
+    /* Örnek renk */
+    flex-shrink: 0;
+}
+.main-container {
+    margin-left: auto;
+     /* Dashboard sağa yaslanır */
+    padding: 24px;
+    flex-grow: 1;
+    height: 100%;
+    overflow-y: auto;
+    /* Eğer dashboard içeriği uzunsa sadece burası kaysın */
+    background-color:#020c17;
+}
