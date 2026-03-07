@@ -1,0 +1,26 @@
+<div class="product-detail-container" *ngIf="product">
+    <button class="back-btn" routerLink="/products">← Back to Products</button>
+
+    <div class="detail-card">
+        <div class="large-image">
+            {{ product.thumbnail.split('text=')[1] }}
+        </div>
+
+        <div class="detail-info">
+            <span class="category-tag">Electronics</span>
+            <h1>{{ product.title }}</h1>
+            <p class="price">${{ product.price }}</p>
+
+            <div class="description">
+                <h3>Description</h3>
+                <p>This is a premium {{ product.title }} designed for high performance and durability in the DataPulse
+                    ecosystem.</p>
+            </div>
+
+            <div class="actions">
+                <button class="buy-now">Buy Now</button>
+                <button class="save-wishlist">♡ Save</button>
+            </div>
+        </div>
+    </div>
+</div>
