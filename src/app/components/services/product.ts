@@ -16,4 +16,5 @@ export class Product {
     return this.products.find(product => product.id === id);
   }
   
+  
 }
