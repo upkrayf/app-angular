@@ -1,0 +1,44 @@
+<div class="sidebar">
+    <div class="sidebar-logo">
+        <div class="logo-icon">D</div>
+        <span class="logo-text">DataPulse</span>
+    </div>
+
+    <div class="sidebar-section">
+        <div class="sidebar-label">Ana Menü</div>
+        <div class="sidebar-item" [class.active]="isActive('/admin/dashboard')" routerLink="/admin/dashboard">
+            <div class="s-icon purple"></div> Dashboard
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/admin/user-management')"
+            routerLink="/admin/user-management">
+            <div class="s-icon blue"></div> Kullanıcılar
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/admin/store-management')"
+            routerLink="/admin/store-management">
+            <div class="s-icon green"></div> Mağazalar
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/admin/category-management')"
+            routerLink="/admin/category-management">
+            <div class="s-icon amber"></div> Kategoriler
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/admin/platform-analytics')"
+            routerLink="/admin/platform-analytics">
+            <div class="s-icon"></div> Platform Analitik
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/admin/audit-logs')" routerLink="/admin/audit-logs">
+            <div class="s-icon red"></div> Audit Logs
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/admin/ai-chat')" routerLink="/admin/ai-chat">
+            <div class="s-icon purple"></div> AI Asistan
+        </div>
+    </div>
+
+    <div class="sidebar-bottom">
+        <div class="sidebar-item" routerLink="/admin/settings">
+            <div class="s-icon"></div> Ayarlar
+        </div>
+        <div class="sidebar-item" (click)="logout()">
+            <div class="s-icon red"></div> Çıkış
+        </div>
+    </div>
+</div>

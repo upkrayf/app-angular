@@ -1,0 +1,78 @@
+<div class="page-layout">
+    <app-sidebar />
+
+    <div class="main-content">
+
+        <div class="topbar">
+            <div>
+                <h1 class="page-title">Platform Dashboard</h1>
+                <p class="page-sub">Hoş geldiniz, Admin</p>
+            </div>
+            <div class="topbar-actions">
+                <button class="btn-outline">Rapor İndir</button>
+                <button class="btn-primary">+ Kullanıcı Ekle</button>
+            </div>
+        </div>
+
+        <div class="kpi-grid">
+            <div class="kpi-card" *ngFor="let kpi of kpiCards">
+                <div class="kpi-label">{{ kpi.label }}</div>
+                <div class="kpi-value">{{ kpi.value }}</div>
+                <span class="kpi-badge" [class.badge-green]="kpi.positive" [class.badge-red]="!kpi.positive">
+                    {{ kpi.change }}
+                </span>
+            </div>
+        </div>
+
+        <div class="grid-2">
+            <div class="card">
+                <div class="card-title">Aylık Gelir Trendi</div>
+                <div class="chart-bars">
+                    <div class="bar" *ngFor="let bar of chartBars" [style.height]="bar.height"
+                        [style.background]="bar.color">
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Son Aktiviteler</div>
+                <div class="activity-item" *ngFor="let item of activities">
+                    <div class="activity-dot" [style.background]="item.color"></div>
+                    <span class="activity-text">{{ item.text }}</span>
+                    <span class="activity-time">{{ item.time }}</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Kullanıcı Yönetimi</div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Kullanıcı</th>
+                        <th>Rol</th>
+                        <th>E-posta</th>
+                        <th>Kayıt Tarihi</th>
+                        <th>Durum</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let user of users">
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.role }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.date }}</td>
+                        <td>
+                            <span class="status-pill" [class.pill-green]="user.status === 'Aktif'"
+                                [class.pill-amber]="user.status === 'Beklemede'"
+                                [class.pill-red]="user.status === 'Askıda'">
+                                {{ user.status }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+</div>
