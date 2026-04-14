@@ -1,21 +1,20 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { UserModel } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class Auth {
 
-  private mockUsers = [
-    { email: 'admin@test.com', password: '123', role: 'ADMIN' },
-    { email: 'corporate@test.com', password: '123', role: 'CORPORATE' },
-    { email: 'individual@test.com', password: '123', role: 'INDIVIDUAL' }
-  ];
+  private apiUrl = '/assets/mock-data/users.json';
 
-  constructor(private router: Router) { }
+  constructor(private router: Router,private http: HttpClient) { }
 
   login(email: string, password: string): boolean {
-    const user = this.mockUsers.find(
+    const mockUsers = this.http.get<UserModel[]>(this.apiUrl);
+    const user = mockUsers.find(
       u => u.email === email && u.password === password
     );
 

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-kpi-card',
@@ -7,5 +8,8 @@ import { Component } from '@angular/core';
   styleUrl: './kpi-card.css',
 })
 export class KpiCard {
-
+  @Input() label: string = 'Başlık Yok';     
+  @Input() value: string | number = '0';     
+  @Input() badgeText: string = '';            
+  @Input() badgeColorClass: string = 'badge-green';
 }

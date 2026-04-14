@@ -17,23 +17,24 @@ const roleGuard = (allowedRole: string) => {
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
+    
     {
         path: 'login',
-        loadComponent: () => import('./auth/login/login').then(m => m.Login)
+        loadComponent: () => import('./features/login/login').then(m => m.Login)
     },
     {
         path: 'admin/dashboard',
-        loadComponent: () => import('./admin/dashboard/dashboard').then(m => m.AdminDashboard),
+        loadComponent: () => import('./features/admin/dashboard/dashboard').then(m => m.AdminDashboard),
         canActivate: [roleGuard('ADMIN')]
     },
     {
         path: 'corporate/dashboard',
-        loadComponent: () => import('./corporate/dashboard/dashboard').then(m => m.CorporateDashboard),
+        loadComponent: () => import('./features/corporate/dashboard/dashboard').then(m => m.CorporateDashboard),
         canActivate: [roleGuard('CORPORATE')]
     },
     {
         path: 'individual/dashboard',
-        loadComponent: () => import('./individual/dashboard/dashboard').then(m => m.IndividualDashboard),
+        loadComponent: () => import('./features/individual/dashboard/dashboard').then(m => m.IndividualDashboard),
         canActivate: [roleGuard('INDIVIDUAL')]
     }
 ];

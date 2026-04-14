@@ -15,13 +15,15 @@
         </div>
 
         <div class="kpi-grid">
-            <div class="kpi-card" *ngFor="let kpi of kpiCards">
-                <div class="kpi-label">{{ kpi.label }}</div>
-                <div class="kpi-value">{{ kpi.value }}</div>
-                <span class="kpi-badge" [class.badge-green]="kpi.positive" [class.badge-red]="!kpi.positive">
+            @for(kpi of kpiCards;track kpi.label){
+                <div class="kpi-card" >
+                    <div class="kpi-label">{{ kpi.label }}</div>
+                    <div class="kpi-value">{{ kpi.value }}</div>
+                    <span class="kpi-badge" [class.badge-green]="kpi.positive" [class.badge-red]="!kpi.positive">
                     {{ kpi.change }}
-                </span>
-            </div>
+                    </span>
+                </div>
+            }
         </div>
 
         <div class="grid-2">

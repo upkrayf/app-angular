@@ -1,10 +1,12 @@
-<div class="sidebar">
+<div class="sidebar" [class.corporate]="role === 'CORPORATE'" [class.individual]="role === 'INDIVIDUAL'">
+
     <div class="sidebar-logo">
         <div class="logo-icon">D</div>
         <span class="logo-text">DataPulse</span>
     </div>
 
-    <div class="sidebar-section">
+    <!-- ADMIN MENÜ -->
+    <div class="sidebar-section" *ngIf="role === 'ADMIN'">
         <div class="sidebar-label">Ana Menü</div>
         <div class="sidebar-item" [class.active]="isActive('/admin/dashboard')" routerLink="/admin/dashboard">
             <div class="s-icon purple"></div> Dashboard
@@ -33,12 +35,76 @@
         </div>
     </div>
 
+    <!-- CORPORATE MENÜ -->
+    <div class="sidebar-section" *ngIf="role === 'CORPORATE'">
+        <div class="sidebar-label">Ana Menü</div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/dashboard')" routerLink="/corporate/dashboard">
+            <div class="s-icon green"></div> Dashboard
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/products')" routerLink="/corporate/products">
+            <div class="s-icon purple"></div> Ürünler
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/orders')" routerLink="/corporate/orders">
+            <div class="s-icon amber"></div> Siparişler
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/inventory')" routerLink="/corporate/inventory">
+            <div class="s-icon blue"></div> Envanter
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/customers')" routerLink="/corporate/customers">
+            <div class="s-icon"></div> Müşteriler
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/analytics')" routerLink="/corporate/analytics">
+            <div class="s-icon green"></div> Analitik
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/shipments')" routerLink="/corporate/shipments">
+            <div class="s-icon"></div> Gönderiler
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/reviews')" routerLink="/corporate/reviews">
+            <div class="s-icon amber"></div> Yorumlar
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/corporate/ai-chat')" routerLink="/corporate/ai-chat">
+            <div class="s-icon purple"></div> AI Asistan
+        </div>
+    </div>
+
+    <!-- INDIVIDUAL MENÜ -->
+    <div class="sidebar-section" *ngIf="role === 'INDIVIDUAL'">
+        <div class="sidebar-label">Ana Menü</div>
+        <div class="sidebar-item" [class.active]="isActive('/individual/dashboard')" routerLink="/individual/dashboard">
+            <div class="s-icon blue"></div> Dashboard
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/individual/shop')" routerLink="/individual/shop">
+            <div class="s-icon purple"></div> Alışveriş
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/individual/orders')" routerLink="/individual/orders">
+            <div class="s-icon amber"></div> Siparişlerim
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/individual/shipment-tracking')"
+            routerLink="/individual/shipment-tracking">
+            <div class="s-icon green"></div> Kargo Takibi
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/individual/reviews')" routerLink="/individual/reviews">
+            <div class="s-icon"></div> Yorumlarım
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/individual/spending-analytics')"
+            routerLink="/individual/spending-analytics">
+            <div class="s-icon blue"></div> Harcama Analitik
+        </div>
+        <div class="sidebar-item" [class.active]="isActive('/individual/ai-chat')" routerLink="/individual/ai-chat">
+            <div class="s-icon purple"></div> AI Asistan
+        </div>
+    </div>
+
     <div class="sidebar-bottom">
-        <div class="sidebar-item" routerLink="/admin/settings">
-            <div class="s-icon"></div> Ayarlar
+        <div class="sidebar-item" *ngIf="role === 'CORPORATE'" routerLink="/corporate/settings">
+            <div class="s-icon"></div> Mağaza Ayarları
+        </div>
+        <div class="sidebar-item" *ngIf="role === 'INDIVIDUAL'" routerLink="/individual/profile">
+            <div class="s-icon"></div> Profilim
         </div>
         <div class="sidebar-item" (click)="logout()">
             <div class="s-icon red"></div> Çıkış
         </div>
     </div>
+
 </div>
