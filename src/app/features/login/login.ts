@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Auth } from '../../core/services/auth';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-login',
@@ -16,7 +16,7 @@ export class Login{
   password: string = '';
   errorMessage: string = '';
 
-  constructor(private authService: Auth,private router: Router) { }
+  constructor(private authService: Auth) { }
 
   onLogin(): void {
     this.errorMessage = '';
@@ -26,11 +26,12 @@ export class Login{
       return;
     }
 
-    const success = this.authService.login(this.email, this.password);
-
-    if (!success) {
-      this.errorMessage = 'E-posta veya şifre hatalı.';
-    }
+    this.authService.login(this.email, this.password).subscribe({
+      next: () => {},
+      error: () => {
+        this.errorMessage = 'Giriş başarısız. Lütfen bilgilerinizi kontrol edin.';
+      }
+    });
   }
 
   fillDemo(role: 'admin' | 'corporate' | 'individual'): void {

@@ -1,100 +1,94 @@
 <div class="page-layout">
   <app-sidebar />
-<div class="main-content">
+  <div class="main-content" style="padding:1.5rem;">
 
-  <div class="topbar">
-    <div>
-      <div class="page-title">Hesabım</div>
-      <div class="page-sub">Hoş geldin, Zeynep Kaya</div>
+    <div class="topbar">
+      <div>
+        <h1 class="page-title">Hoş Geldin, {{ userName }}! 👋</h1>
+        <p class="page-sub">Alışveriş panelinize genel bakış</p>
+      </div>
+      <div class="topbar-actions">
+        <button class="btn-primary" routerLink="/individual/shop">🛍️ Alışverişe Devam</button>
+      </div>
     </div>
-    <div class="topbar-actions">
-      <button class="btn-primary">Alışverişe Devam Et</button>
-    </div>
-  </div>
 
-  <div class="kpi-grid">
-    <div class="kpi-card">
-      <div class="kpi-label">Toplam Harcama</div>
-      <div class="kpi-value">$1,240</div>
-      <div class="kpi-badge badge-green">Bu Yıl</div>
+    <!-- KPIs -->
+    <div class="kpi-grid" *ngIf="stats">
+      <div class="kpi-card">
+        <div class="kpi-label">Toplam Harcama</div>
+        <div class="kpi-value">{{ formatCurrency(stats.totalSpent) }}</div>
+        <span class="kpi-badge badge-green">Tüm zamanlar</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Aktif Siparişler</div>
+        <div class="kpi-value">{{ stats.activeOrders }}</div>
+        <span class="kpi-badge badge-amber">Kargo yolunda</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Toplam Sipariş</div>
+        <div class="kpi-value">{{ stats.totalOrders }}</div>
+        <span class="kpi-badge badge-green">Tüm zamanlar</span>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">Bekleyen Yorumlar</div>
+        <div class="kpi-value">{{ stats.pendingReviews }}</div>
+        <span class="kpi-badge" style="background:#2e2e48; color:#9a9ab0;">Değerlendirme bekliyor</span>
+      </div>
     </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Aktif Siparişler</div>
-      <div class="kpi-value">2</div>
-      <div class="kpi-badge badge-amber">Kargo yolunda</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Kazandığın İndirimler</div>
-      <div class="kpi-value">$185</div>
-      <div class="kpi-badge badge-green">Kuponlardan</div>
-    </div>
-    <div class="kpi-card">
-      <div class="kpi-label">Değerlendirmelerin</div>
-      <div class="kpi-value">12</div>
-      <div class="kpi-badge" style="background: #2e2e48; color: #9a9ab0;">3 Puan Bekleyen</div>
-    </div>
-  </div>
 
-  <div class="grid-2">
+    <div class="grid-2">
+      <!-- Spending Chart -->
+      <div class="card">
+        <div class="card-title">Kategori Bazlı Harcama</div>
+        <div style="display:flex; align-items:flex-end; gap:8px; height:120px; padding:8px 0;">
+          <div *ngFor="let cat of spendingByCategory" style="display:flex; flex-direction:column; align-items:center; flex:1; height:100%;">
+            <div style="font-size:10px; color:#7a7a9a; margin-bottom:3px;">${{ (cat.amount / 1000).toFixed(1) }}K</div>
+            <div class="bar" [style.height]="getBarHeight(cat.amount)" style="background: linear-gradient(180deg,#6c63ff,#534ab7); width:100%; border-radius:3px 3px 0 0;"></div>
+            <div style="font-size:9px; color:#4a4a6a; margin-top:3px; text-align:center; overflow:hidden; max-width:40px; white-space:nowrap; text-overflow:ellipsis;">{{ cat.categoryName }}</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Active Shipments -->
+      <div class="card">
+        <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+          Kargo Durumum
+          <a routerLink="/individual/shipment-tracking" style="font-size:11px; color:#6c63ff; text-decoration:none;">Tümü →</a>
+        </div>
+        <div *ngFor="let s of activeShipments" class="activity-item">
+          <div class="activity-dot" [style.background]="s.status === 'DELIVERED' ? '#1d9e75' : s.status === 'SHIPPED' ? '#ba7517' : '#6c63ff'"></div>
+          <span class="activity-text">#{{ s.orderId }} — {{ s.carrier || '' }}</span>
+          <span class="activity-time">{{ getShipStatusLabel(s.status) }}</span>
+        </div>
+        <div *ngIf="!activeShipments.length" style="text-align:center; color:#4a4a6a; font-size:12px; padding:1rem;">Aktif kargo yok.</div>
+      </div>
+    </div>
+
+    <!-- Recent Orders -->
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+        Son Siparişlerim
+        <a routerLink="/individual/orders" style="font-size:11px; color:#6c63ff; text-decoration:none;">Tümü →</a>
+      </div>
+      <table class="data-table">
+        <thead><tr><th>Sipariş No</th><th>Mağaza</th><th>Tutar</th><th>Tarih</th><th>Durum</th></tr></thead>
+        <tbody>
+          <tr *ngFor="let o of recentOrders" style="cursor:pointer;" routerLink="/individual/orders/{{ o.id }}">
+            <td style="color:#6c63ff;">#{{ o.id }}</td>
+            <td style="color:#f0f0f5;">{{ o.storeName || '-' }}</td>
+            <td>{{ formatCurrency(o.totalAmount) }}</td>
+            <td style="color:#7a7a9a; font-size:11px;">{{ o.createdAt | slice:0:10 }}</td>
+            <td><span class="status-pill" [class]="getStatusClass(o.status)">{{ getStatusLabel(o.status) }}</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- AI Chat -->
     <div class="card">
-      <div class="card-title">Harcama Analizi (Kategori)</div>
-      <div class="chart-bars">
-        <div class="bar" style="height: 80%; background: #1d9e75;" title="Elektronik"></div>
-        <div class="bar" style="height: 40%; background: #6c63ff;" title="Giyim"></div>
-        <div class="bar" style="height: 60%; background: #ba7517;" title="Ev/Yaşam"></div>
-        <div class="bar" style="height: 20%; background: #e24b4a;" title="Kitap"></div>
-      </div>
+      <div class="card-title">AI Alışveriş Asistanı</div>
+      <app-ai-chat />
     </div>
 
-    <div class="card">
-      <div class="card-title">Kargo Durumları</div>
-
-      <div class="activity-item">
-        <div class="activity-dot" style="background: #ba7517;"></div>
-        <div class="activity-text">Sipariş #1024</div>
-        <div class="activity-time">Dağıtıma Çıktı</div>
-      </div>
-      <div class="activity-item">
-        <div class="activity-dot" style="background: #1d9e75;"></div>
-        <div class="activity-text">Sipariş #1019</div>
-        <div class="activity-time">Teslim Edildi</div>
-      </div>
-      <div class="activity-item">
-        <div class="activity-dot" style="background: #6c63ff;"></div>
-        <div class="activity-text">İade Talebi #84</div>
-        <div class="activity-time">Onaylandı</div>
-      </div>
-    </div>
   </div>
-
-  <div class="card">
-    <div class="card-title">Sipariş Geçmişim</div>
-    <table class="data-table">
-      <thead>
-        <tr>
-          <th>Sipariş No</th>
-          <th>Mağaza</th>
-          <th>Tutar</th>
-          <th>Tarih</th>
-          <th>Durum</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>#1024</td>
-          <td>TechStore</td>
-          <td>$499.00</td>
-          <td>10 Mar 2026</td>
-          <td><span class="status-pill pill-amber">Kargoda</span></td>
-        </tr>
-        <tr>
-          <td>#1019</td>
-          <td>Ev Dünyası</td>
-          <td>$120.00</td>
-          <td>25 Şub 2026</td>
-          <td><span class="status-pill pill-green">Teslim Edildi</span></td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div></div>
+</div>

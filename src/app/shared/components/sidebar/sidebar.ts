@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
-import { OnInit } from '@angular/core';
-import { Auth } from '../../../core/services/auth'
+import { Auth } from '../../../core/services/auth';
+import { CartService } from '../../../core/services/cart';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,17 +13,23 @@ import { Auth } from '../../../core/services/auth'
 })
 export class Sidebar implements OnInit {
   role: string = '';
+  cartCount = 0;
 
   constructor(
     private authService: Auth,
-    private router: Router
-  ) { }
+    private router: Router,
+    private cartService: CartService
+  ) {}
+
   ngOnInit(): void {
     this.role = this.authService.getRole() || '';
+    this.cartService.cart$.subscribe(items => {
+      this.cartCount = items.reduce((sum, i) => sum + i.quantity, 0);
+    });
   }
 
   isActive(path: string): boolean {
-    return this.router.url === path;
+    return this.router.url.startsWith(path);
   }
 
   logout(): void {
